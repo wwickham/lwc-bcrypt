@@ -1,8 +1,8 @@
 import { LightningElement, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { FlowNavigationNextEvent } from 'lightning/flowSupport';
-import BCRYPT from '@salesforce/resourceUrl/BcryptJS';
 import { loadScript } from 'lightning/platformResourceLoader';
+import BCRYPT from '@salesforce/resourceUrl/BcryptJS'; //Static resource of the bcrypt.js package.
 import { hash, compare } from './bcrypt';
 
 let generateHash;
@@ -28,7 +28,9 @@ export default class BcryptLWC extends LightningElement {
         //use the bcrypt.js file included in this component bundle.
         try {
             await loadScript(this, BCRYPT + '/index.js')
-            .then(() => { 
+            .then(() => {
+                //Conflicts with LWS and shadow DOM in experience sites might prevent accessing the script from a static resource.
+                //If access fails, use the bcrypt.js file packaged in this LWC bundle as a fallback.
                 generateHash = window.hash;
                 compareHash = window.compare;
 
@@ -106,7 +108,7 @@ export default class BcryptLWC extends LightningElement {
         this.dispatchEvent(
             new ShowToastEvent({
                 title: 'There was an error.',
-                message: 'Your information was not saved. Please contact Amplify support for assistance.',
+                message: 'Your information was not saved. Please contact support for assistance.',
                 variant: 'error',
                 mode: 'sticky'
             })
