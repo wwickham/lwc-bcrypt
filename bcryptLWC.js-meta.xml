@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Bcrypt LWC</masterLabel>
+  <description>Implementation of the Bcrypt.js package in a LWC.</description>
+  <targets>
+      <target>lightning__RecordPage</target>
+      <target>lightning__AppPage</target>
+      <target>lightning__FlowScreen</target>
+  </targets>
+  <targetConfigs>
+    <targetConfig targets="lightning__FlowScreen">
+        <property name="input" type="String" label="Input" required="true" default="1234"></property>
+        <property name="hash" type="String" label="Hash" description="Only required for hash comparison."></property>
+        <property name="costFactor" type="Integer" label="Cost Factor" description="Determines how many iterations of hashing to use. A higher cost increases security, but also operation time." required="true" default="10" min="4" max="31"></property>
+        <property name="outputHash" type="String" label="Output Hash" role="outputOnly"></property>
+        <property name="outputStatus" type="Boolean" label="Output Status" description="Returns true if hash generation or comparison were successful." role="outputOnly"></property>
+    </targetConfig>
+  </targetConfigs>
+</LightningComponentBundle>
